@@ -1,13 +1,15 @@
-# Instrucciones
+# Instructions
 
-## Compilación
+## Compilation
 
 ```bash
 ./gradlew build 
 ```
 
-## Ejecución de las pruebas
+## Tests Execution
 
 ```bash
 ./gradlew test
 ```
+
+Furthermore, we can check the test report file by opening the `/build/reports/tests/test/index.html` file in the browser.

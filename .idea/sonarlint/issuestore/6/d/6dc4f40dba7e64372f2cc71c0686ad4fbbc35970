@@ -1,0 +1,17 @@
+
+_
+java:S1854"=Remove this useless assignment to local variable "thousands".(ÆÈëÜıÿÿÿÿ8â¸Ã°Ã1
+Y
+java:S1854"<Remove this useless assignment to local variable "hundreds".(¸¬ØÎ8ã¸Ã°Ã1
+U
+java:S1854"8Remove this useless assignment to local variable "tens".(¢µ‚¹8ã¸Ã°Ã1
+[
+java:S1854"9Remove this useless assignment to local variable "units".(ÀˆÜªıÿÿÿÿ8ã¸Ã°Ã1
+L
+java:S1481"*Remove this unused "units" local variable.(ÀˆÜªıÿÿÿÿ8å¸Ã°Ã1
+F
+java:S1481")Remove this unused "tens" local variable.(¢µ‚¹8æ¸Ã°Ã1
+J
+java:S1481"-Remove this unused "hundreds" local variable.(¸¬ØÎ8æ¸Ã°Ã1
+P
+java:S1481".Remove this unused "thousands" local variable.(ÆÈëÜıÿÿÿÿ8ç¸Ã°Ã1
