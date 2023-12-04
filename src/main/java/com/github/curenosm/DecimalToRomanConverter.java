@@ -2,12 +2,15 @@ package com.github.curenosm;
 
 
 /**
- * Converts decimal numbers in the form of Integer
- * to roman numbers in the form of a String consisting
- * of the characters I, V, X, L, C, D, M.
+ * @version 1.0.0
  */
 public class DecimalToRomanConverter implements Converter<Integer, String> {
 
+  /**
+   * Converts decimal numbers in the form of Integer
+   * to roman numbers in the form of a String consisting
+   * of the characters I, V, X, L, C, D, M.
+   */
   @Override
   public String convert(Integer value) {
     var units = value % 10;

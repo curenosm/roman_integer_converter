@@ -79,7 +79,9 @@ class ConverterTests {
   @CsvFileSource(resources = "/roman_to_decimal.csv")
   void testIntegerToRoman(String value, Integer expected) {
     var res = romanToDecimal.convert(value);
-    logger.info("converting %d from roman to decimal = %s".formatted(value, res));
+    logger.info("converting %s from roman to decimal = %d".formatted(value, res));
+    logger.info("we expected %d".formatted(expected));
+    logger.info("we received %d".formatted(res));
     assert res.equals(expected);
   }
 
