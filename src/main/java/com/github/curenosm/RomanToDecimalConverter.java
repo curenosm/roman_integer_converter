@@ -22,7 +22,9 @@ public class RomanToDecimalConverter implements Converter<String, Integer> {
   public Integer convert(String value) {
     var acc = new ArrayList<String>();
     var matches = matchNext(value, acc);
+    logger.info("matches: " + matches);
     var formedString = matchesToString(matches);
+    logger.info("formedString: " + formedString);
     return Integer.parseInt(formedString);
   }
 
@@ -33,7 +35,8 @@ public class RomanToDecimalConverter implements Converter<String, Integer> {
    * @return String of matches.
    */
   public String matchesToString(List<String> matches) {
-    return matches.stream()
+    return matches
+        .stream()
         .map(this::matchToDecimal)
         .reduce("", String::concat);
   }
@@ -91,46 +94,50 @@ public class RomanToDecimalConverter implements Converter<String, Integer> {
       String currentValue,
       List<String> matches) {
 
-    // Caso base
+    if (!currentValue.isEmpty()) {
+      if (currentValue.length() == 1) {
+        matches.add(currentValue);
+      } else {
+        var acc = new StringBuilder();
+        var cur = 0;
+        var next = 1;
+
+        // Using an example: MMDCCCLVIII
+        acc.append(currentValue.charAt(cur));
+
+        // You start accumulating, store the M and MDCCCLVIII is left
+        // Keep on accumulating, because M is greater than D
+        while (cur < currentValue.length()
+            && next < currentValue.length()
+            && (getRomanEnumFromChar(currentValue.charAt(cur)).getValue()
+            >= getRomanEnumFromChar(currentValue.charAt(next)).getValue())) {
+          acc.append(currentValue.charAt(next));
+          cur++;
+          next++;
+        }
+
+        // So far you have MM, and DCCCLVIII is left
+
+        // After that, D is less than M, so you stop accumulating
+        // And the string accumulated is inserted in the list of matches
+        matches.add(acc.toString());
+
+        // After that the process begins again but with the string DCCCLVIII
+      }
+    }
+
+    // Si the string is empty, we return the matches
+    // This is our base case
     if (currentValue.isEmpty()) {
       return matches;
-    } else {
-      var acc = new StringBuilder();
-      var cur = 0;
-      var next = 1;
-
-      // Por poner un ejemplo, analizando
-      // MMDCCCLVIII
-
-      // Primero vas acumulando, guardas la M y te queda MDCCCLVIII
-      // Sigues acumulando la M porque sigue siendo mayor que la D
-      // Te queda hasta el momento MM, DCCCLVIII
-
-      while (cur < currentValue.length()
-          && next < currentValue.length()
-          && (getRomanEnumFromChar(currentValue.charAt(cur)).getValue()
-          >= getRomanEnumFromChar(currentValue.charAt(next)).getValue())) {
-        acc.append(currentValue.charAt(cur));
-        cur++;
-        next++;
-        if (next >= currentValue.length()) {
-          break;
-        }
-      }
-
-      // Luego la D tiene un valor asociado menor que la M,
-      // por lo que el string acumulado pasa a insertarse en la lista
-      // de matches
-
-      matches.add(acc.toString());
-
-      // Después se reinicia el proceso con el string DCCCLVIII
-      // MM_DCC_C_L_VIII
-
-      return matchNext(
-          currentValue.substring(1),
-          matches
-      );
     }
+
+    // If not we continue with the next match
+    return matchNext(
+        currentValue.substring(
+            matches.get(matches.size() - 1).length()
+        ),
+        matches
+    );
   }
 }

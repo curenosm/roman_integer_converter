@@ -77,7 +77,7 @@ class ConverterTests {
   @Tag("param")
   @ParameterizedTest(name = "converting {0} from roman to decimal")
   @CsvFileSource(resources = "/roman_to_decimal.csv")
-  void testIntegerToRoman(String value, Integer expected) {
+  void testRomanToInteger(String value, Integer expected) {
     var res = romanToDecimal.convert(value);
     logger.info("converting %s from roman to decimal = %d".formatted(value, res));
     logger.info("we expected %d".formatted(expected));
