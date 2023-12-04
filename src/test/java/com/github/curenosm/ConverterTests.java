@@ -4,6 +4,7 @@ package com.github.curenosm;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.logging.Logger;
@@ -11,6 +12,7 @@ import java.util.logging.Logger;
 class ConverterTests {
 
   private static final Converter<Integer, String> romanToDecimal = new RomanToDecimalConverter();
+  private static final Converter<String, Integer> decimalToRoman = new DecimalToRomanConverter();
   private static final Logger logger = Logger.getLogger(ConverterTests.class.getName());
 
   @Test
@@ -64,6 +66,15 @@ class ConverterTests {
   void testIntegerToRoman(Integer value, String expected) {
     var res = romanToDecimal.convert(value);
     logger.info("converting %d to roman = %s".formatted(value, res));
+    assert res.equals(expected);
+  }
+
+  @Tag("param")
+  @ParameterizedTest(name = "converting {0} from roman to decimal")
+  @CsvFileSource(resources = "/roman_to_decimal.csv")
+  void testIntegerToRoman(String value, Integer expected) {
+    var res = decimalToRoman.convert(value);
+    logger.info("converting %d from roman to decimal = %s".formatted(value, res));
     assert res.equals(expected);
   }
 
