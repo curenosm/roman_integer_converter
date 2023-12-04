@@ -28,6 +28,26 @@ public class RomanDecimalConverter implements Converter<Integer, String> {
     );
   }
 
+  public static String getRoman(
+      Integer n,
+      String s,
+      String mid,
+      String next) {
+
+    return switch (n) {
+      case 1 -> s;
+      case 2 -> s.repeat(2);
+      case 3 -> s.repeat(3);
+      case 4 -> s + mid;
+      case 5 -> mid;
+      case 6 -> mid + s;
+      case 7 -> mid + s.repeat(2);
+      case 8 -> mid + s.repeat(3);
+      case 9 -> s + next;
+      default -> "";
+    };
+  }
+
   public static String getThousands(Integer n) {
     return switch (n) {
       case 1 -> "M";
@@ -38,48 +58,15 @@ public class RomanDecimalConverter implements Converter<Integer, String> {
   }
 
   public static String getHundreds(Integer n) {
-    return switch (n) {
-      case 1 -> "C";
-      case 2 -> "CC";
-      case 3 -> "CCC";
-      case 4 -> "CD";
-      case 5 -> "D";
-      case 6 -> "DC";
-      case 7 -> "DCC";
-      case 8 -> "DCCC";
-      case 9 -> "CM";
-      default -> "";
-    };
+    return getRoman(n, "C", "D", "M");
   }
 
   public static String getTens(Integer n) {
-    return switch (n) {
-      case 1 -> "X";
-      case 2 -> "XX";
-      case 3 -> "XXX";
-      case 4 -> "XL";
-      case 5 -> "L";
-      case 6 -> "LX";
-      case 7 -> "LXX";
-      case 8 -> "LXXX";
-      case 9 -> "XC";
-      default -> "";
-    };
+    return getRoman(n, "X", "L", "C");
   }
 
   public static String getUnits(Integer n) {
-    return switch (n) {
-      case 1 -> "I";
-      case 2 -> "II";
-      case 3 -> "III";
-      case 4 -> "IV";
-      case 5 -> "V";
-      case 6 -> "VI";
-      case 7 -> "VII";
-      case 8 -> "VIII";
-      case 9 -> "IX";
-      default -> "";
-    };
+    return getRoman(n, "I", "V", "X");
   }
 
 }
