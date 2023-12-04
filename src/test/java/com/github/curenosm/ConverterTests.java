@@ -11,38 +11,43 @@ import java.util.logging.Logger;
 
 class ConverterTests {
 
-  private static final Converter<Integer, String> romanToDecimal = new RomanToDecimalConverter();
-  private static final Converter<String, Integer> decimalToRoman = new DecimalToRomanConverter();
+  private static final Converter<String, Integer> romanToDecimal = new RomanToDecimalConverter();
+  private static final Converter<Integer, String> decimalToRoman = new DecimalToRomanConverter();
   private static final Logger logger = Logger.getLogger(ConverterTests.class.getName());
 
   @Test
   void testIntegerToRoman_value_1() {
-    var res = romanToDecimal.convert(1);
-    assert res.equals("I");
+    assert decimalToRoman
+        .convert(1)
+        .equals("I");
   }
 
   @Test
   void testIntegerToRoman_value_4() {
-    var res = romanToDecimal.convert(4);
-    assert res.equals("IV");
+    assert decimalToRoman
+        .convert(4)
+        .equals("IV");
   }
 
   @Test
   void testIntegerToRoman_value_13() {
-    var res = romanToDecimal.convert(13);
-    assert res.equals("XIII");
+    assert decimalToRoman
+        .convert(13)
+        .equals("XIII");
   }
 
   @Test
   void testIntegerToRoman_value_45() {
-    var res = romanToDecimal.convert(45);
-    assert res.equals("XLV");
+    assert decimalToRoman
+        .convert(45)
+        .equals("XLV");
   }
 
   @Test
   void testIntegerToRoman_value_99() {
-    var res = romanToDecimal.convert(99);
-    assert res.equals("XCIX");
+    assert decimalToRoman
+        .convert(99)
+        .equals("XCIX");
   }
 
   @Tag("param")
@@ -64,7 +69,7 @@ class ConverterTests {
       "3000, MMM",
   })
   void testIntegerToRoman(Integer value, String expected) {
-    var res = romanToDecimal.convert(value);
+    var res = decimalToRoman.convert(value);
     logger.info("converting %d to roman = %s".formatted(value, res));
     assert res.equals(expected);
   }
@@ -73,7 +78,7 @@ class ConverterTests {
   @ParameterizedTest(name = "converting {0} from roman to decimal")
   @CsvFileSource(resources = "/roman_to_decimal.csv")
   void testIntegerToRoman(String value, Integer expected) {
-    var res = decimalToRoman.convert(value);
+    var res = romanToDecimal.convert(value);
     logger.info("converting %d from roman to decimal = %s".formatted(value, res));
     assert res.equals(expected);
   }

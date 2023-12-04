@@ -1,68 +1,92 @@
 package com.github.curenosm;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class RomanToDecimalConverter implements Converter<Integer, String> {
 
+public class RomanToDecimalConverter implements Converter<String, Integer> {
+
+  /**
+   * Converts roman numbers in the form of a given String
+   * with only valid characters, to decimal numbers in
+   * the form of Integer.
+   *
+   * @param value String to be converted.
+   */
   @Override
-  public String convert(Integer value) {
-    var units = value % 10;
-    value /= 10;
-
-    var tens = value % 10;
-    value /= 10;
-
-    var hundreds = value % 10;
-    value /= 10;
-
-    var thousands = value % 10;
-
-    return "%s%s%s%s".formatted(
-        getThousands(thousands),
-        getHundreds(hundreds),
-        getTens(tens),
-        getUnits(units)
+  public Integer convert(String value) {
+    var acc = new ArrayList<String>();
+    var matches = matchNext(value, acc);
+    var formedString = matchesToString(matches);
+    return Integer.parseInt(
+        String.join("", formedString)
     );
   }
 
-  public static String getRoman(
-      Integer n,
-      String s,
-      String mid,
-      String next) {
+  /**
+   * Converts a list of matches to a String.
+   *
+   * @param matches List of matches.
+   * @return String of matches.
+   */
+  public String matchesToString(List<String> matches) {
+    return String.join("", matches);
+  }
 
-    return switch (n) {
-      case 1 -> s;
-      case 2 -> s.repeat(2);
-      case 3 -> s.repeat(3);
-      case 4 -> s + mid;
-      case 5 -> mid;
-      case 6 -> mid + s;
-      case 7 -> mid + s.repeat(2);
-      case 8 -> mid + s.repeat(3);
-      case 9 -> s + next;
-      default -> "";
+  public static Roman getRomanEnumFromChar(char c) {
+    return switch (c) {
+      case 'I' -> Roman.I;
+      case 'V' -> Roman.V;
+      case 'X' -> Roman.X;
+      case 'L' -> Roman.L;
+      case 'C' -> Roman.C;
+      case 'D' -> Roman.D;
+      case 'M' -> Roman.M;
+      default -> Roman.NONE;
     };
   }
 
-  public static String getThousands(Integer n) {
-    return switch (n) {
-      case 1 -> "M";
-      case 2 -> "MM";
-      case 3 -> "MMM";
-      default -> "";
-    };
-  }
+  /**
+   * Recursive function that iterates over the string to
+   * from left to right and goes accumulating the next
+   * match.
+   *
+   * @param currentValue String to be analyzed.
+   * @param matches List of matches until now.
+   * @return List of matches.
+   */
+  public List<String> matchNext(
+      String currentValue,
+      List<String> matches) {
 
-  public static String getHundreds(Integer n) {
-    return getRoman(n, "C", "D", "M");
-  }
+    // Caso base
+    if (currentValue.isEmpty()) {
+      return matches;
+    } else {
+      var acc = new StringBuilder();
+      var cur = 0;
+      var next = 1;
 
-  public static String getTens(Integer n) {
-    return getRoman(n, "X", "L", "C");
-  }
+      // Por poner un ejemplo, analizando
+      // MMDCCCLVIII
 
-  public static String getUnits(Integer n) {
-    return getRoman(n, "I", "V", "X");
-  }
+      // Primero vas acumulando, guardas la M y te queda MDCCCLVIII
+      // Sigues acumulando la M porque sigue siendo mayor que la D
+      // Te queda hasta el momento MM, DCCCLVIII
 
+      // Luego la D tiene un valor asociado menor que la M,
+      // por lo que el string acumulado pasa a insertarse en la lista
+      // de matches
+
+      matches.add(acc.toString());
+
+      // Después se reinicia el proceso con el string DCCCLVIII
+      // MM_DCC_C_L_VIII
+
+      return matchNext(
+          currentValue.substring(1),
+          matches
+      );
+    }
+  }
 }
