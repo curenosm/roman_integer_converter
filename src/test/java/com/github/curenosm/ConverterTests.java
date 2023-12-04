@@ -1,7 +1,11 @@
 package com.github.curenosm;
 
 
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.logging.Logger;
 
@@ -38,6 +42,30 @@ class ConverterTests {
   void testIntegerToRoman_value_99() {
     var res = romanToDecimal.convert(99);
     assert res.equals("XCIX");
+  }
+
+  @Tag("param")
+  @ParameterizedTest(name = "converting {0} to roman")
+  @CsvSource({
+      "1, I",
+      "4, IV",
+      "13, XIII",
+      "45, XLV",
+      "99, XCIX",
+      "100, C",
+      "400, CD",
+      "500, D",
+      "900, CM",
+      "2000, MM",
+      "2300, MMCCC",
+      "2344, MMCCCXLIV",
+      "2858, MMDCCCLVIII",
+      "3000, MMM",
+  })
+  void testIntegerToRoman(Integer value, String expected) {
+    var res = romanToDecimal.convert(value);
+    logger.info("converting %d to roman = %s".formatted(value, res));
+    assert res.equals(expected);
   }
 
 }

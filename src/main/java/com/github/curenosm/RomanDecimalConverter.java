@@ -12,13 +12,13 @@ public class RomanDecimalConverter implements Converter<Integer, String> {
     var units = value % 10;
     value /= 10;
 
-    var tens = value % 100;
+    var tens = value % 10;
     value /= 10;
 
-    var hundreds = value % 100;
+    var hundreds = value % 10;
     value /= 10;
 
-    var thousands = value % 1000;
+    var thousands = value % 10;
 
     return "%s%s%s%s".formatted(
         getThousands(thousands),
