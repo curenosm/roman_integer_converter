@@ -1,7 +1,6 @@
 package com.github.curenosm;
 
 
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,7 +10,7 @@ import java.util.logging.Logger;
 
 class ConverterTests {
 
-  private static final Converter<Integer, String> romanToDecimal = new RomanDecimalConverter();
+  private static final Converter<Integer, String> romanToDecimal = new RomanToDecimalConverter();
   private static final Logger logger = Logger.getLogger(ConverterTests.class.getName());
 
   @Test

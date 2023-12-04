@@ -1,11 +1,7 @@
 package com.github.curenosm;
 
 
-interface Converter<F, T> {
-  T convert(F value);
-}
-
-public class RomanDecimalConverter implements Converter<Integer, String> {
+public class RomanToDecimalConverter implements Converter<Integer, String> {
 
   @Override
   public String convert(Integer value) {
